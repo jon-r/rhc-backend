@@ -21,21 +21,45 @@ SELECT
   `old_rhc_categories`.List_Order as sort_order
 FROM `old_rhc_categories` WHERE `old_rhc_categories`.Category_ID > 0;
 
+truncate `rhc_categories_xrefs`;
 
--- TRUNCATE `rhc_cats_xref`;
-
--- todo
--- setting FOREIGN KEYs
--- JOIN via SELECT (inner join?)
--- https://code.tutsplus.com/articles/sql-for-beginners-part-3-database-relationships--net-8561
-
-
-
--- CALL $('{egory,1,2,3}', 'INSERT INTO rhc_cats_xref (
---   cat_index,
---   product_index
--- )
--- SELECT
---   rhc_categories.cat_index AS cat_index,
---   rhcproduct_index
--- ')
+-- Category
+INSERT INTO `rhc_categories_xrefs` (
+  product_id, category_id)
+SELECT
+`rhc_products`.id AS product_id,
+`rhc_categories`.id AS category_id
+FROM `rhc_products`, `networked db`, `rhc_categories`
+WHERE `networked db`.Category <> ''
+AND `networked db`.RHC = `rhc_products`.rhc_ref
+AND `networked db`.Category = `rhc_categories`.cat_name;
+-- Cat1
+INSERT INTO `rhc_categories_xrefs` (
+  product_id, category_id)
+SELECT
+`rhc_products`.id AS product_id,
+`rhc_categories`.id AS category_id
+FROM `rhc_products`, `networked db`, `rhc_categories`
+WHERE `networked db`.Cat1 <> ''
+AND `networked db`.RHC = `rhc_products`.rhc_ref
+AND `networked db`.Cat1 = `rhc_categories`.cat_name;
+-- Cat2
+INSERT INTO `rhc_categories_xrefs` (
+  product_id, category_id)
+SELECT
+`rhc_products`.id AS product_id,
+`rhc_categories`.id AS category_id
+FROM `rhc_products`, `networked db`, `rhc_categories`
+WHERE `networked db`.Cat2 <> ''
+AND `networked db`.RHC = `rhc_products`.rhc_ref
+AND `networked db`.Cat2 = `rhc_categories`.cat_name;
+-- Cat3
+INSERT INTO `rhc_categories_xrefs` (
+  product_id, category_id)
+SELECT
+`rhc_products`.id AS product_id,
+`rhc_categories`.id AS category_id
+FROM `rhc_products`, `networked db`, `rhc_categories`
+WHERE `networked db`.Cat3 <> ''
+AND `networked db`.RHC = `rhc_products`.rhc_ref
+AND `networked db`.Cat3 = `rhc_categories`.cat_name;
