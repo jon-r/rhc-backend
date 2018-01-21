@@ -28,8 +28,8 @@ class CreateProductTable extends Migration
             $table->string('product_name', 255)->default('');
             $table->string('description', 4098)->default('');
             $table->smallInteger('quantity')->default(1)->unsigned();
-            $table->decimal('price', 5, 2)->default(0)->unsigned();
-            $table->decimal('original_price', 5, 2)->default(0)->unsigned();
+            $table->decimal('price', 7, 2)->default(0)->unsigned();
+            $table->decimal('original_price', 7, 2)->default(0)->unsigned();
             $table->boolean('is_job_lot')->default(false);
             $table->boolean('is_featured')->default(false);
             $table->enum('site_flag', ['','soon','reserved','sale','staff picks'])->default('');
