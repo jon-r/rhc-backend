@@ -20,7 +20,7 @@ class CreateRhcDataTables extends Migration
       Schema::create('rhc_specs', function (Blueprint $table) {
           $table->increments('id');
           $table->mediumInteger('product_id')->unsigned();
-          $table->string('name', 64);
+          $table->string('name', 255);
           $table->string('value', 255);
       });
       Schema::create('rhc_related', function (Blueprint $table) {

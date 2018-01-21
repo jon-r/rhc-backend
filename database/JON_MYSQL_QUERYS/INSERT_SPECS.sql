@@ -1,8 +1,12 @@
 
+DROP TEMPORARY TABLE IF EXISTS tmp;
+CREATE TEMPORARY TABLE tmp (`product_id` mediumint, `name` varchar(255), `value` varchar(255)) engine=memory;
 CALL rhc_split_extras();
 
 INSERT INTO `rhc_specs` (
-
+  product_id,
+  name,
+  value
 )
 -- Height
 (SELECT `rhc_products`.id as product_id,'Height' as name,`networked db`.Height as value

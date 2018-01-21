@@ -106,8 +106,6 @@ BEGIN
       AND `networked db`.ExtraMeasurements<>'';
   DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-  CREATE TEMPORARY TABLE tmp (`product_id` mediumint, `name` varchar(255), `value` varchar(255)) engine=memory;
-
   OPEN cur1;
 
   read_loop: LOOP
