@@ -3,7 +3,8 @@ TRUNCATE `rhc_categories`;
 INSERT INTO `rhc_categories` (
   `cat_name`,
   `slug`,
-  `sort_order`
+  `sort_order`,
+  `cat_group`
 )
 SELECT
   `old_rhc_categories`.Name as cat_name,
@@ -18,8 +19,11 @@ SELECT
       '-'
     )
   ) as slug,
-  `old_rhc_categories`.List_Order as sort_order
-FROM `old_rhc_categories` WHERE `old_rhc_categories`.Category_ID > 0;
+  `old_rhc_categories`.List_Order as sort_order,
+  `rhc_groups`.id as `cat_group`
+FROM `old_rhc_categories`, `rhc_groups`
+WHERE `old_rhc_categories`.Category_ID > 0
+AND `old_rhc_categories`.CategoryGroup = `rhc_groups`.group_name;
 
 truncate `rhc_categories_xrefs`;
 

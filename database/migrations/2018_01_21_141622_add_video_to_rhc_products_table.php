@@ -26,7 +26,7 @@ class AddVideoToRhcProductsTable extends Migration
     public function down()
     {
       Schema::table('rhc_products', function (Blueprint $table) {
-        $table->dropColumn('sort_order');
+        $table->dropColumn('video_link');
       });
     }
 }

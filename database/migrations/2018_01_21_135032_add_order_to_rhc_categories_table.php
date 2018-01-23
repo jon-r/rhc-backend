@@ -14,7 +14,7 @@ class AddOrderToRhcCategoriesTable extends Migration
     public function up()
     {
       Schema::table('rhc_categories', function (Blueprint $table) {
-        $table->tinyInteger('sort_order')->default(0);
+        $table->tinyInteger('sort_order')->default(0)->unsigned();
       });
     }
 

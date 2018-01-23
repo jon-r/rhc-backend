@@ -17,7 +17,7 @@ class CreateRhcCategoriesTable extends Migration
             $table->tinyIncrements('id');
             $table->string('cat_name', 32)->unique();
             $table->string('slug', 32)->unique();
-            $table->tinyInteger('cat_group')->default(0);
+            $table->tinyInteger('cat_group')->default(0)->unsigned();
         });
     }
 

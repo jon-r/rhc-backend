@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRhcGlobalConfig extends Migration
+class AddSortOrderToRhcSpecs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class CreateRhcGlobalConfig extends Migration
      */
     public function up()
     {
-        //
+      Schema::table('rhc_specs', function (Blueprint $table) {
+        $table->tinyInteger('sort_order')->default(0)->unsigned();
+      });
     }
 
     /**
@@ -23,6 +25,8 @@ class CreateRhcGlobalConfig extends Migration
      */
     public function down()
     {
-        //
+      Schema::table('rhc_specs', function (Blueprint $table) {
+        $table->dropColumn('sort_order');
+      });
     }
 }
