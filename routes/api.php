@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::get('site/init', function() {
+//
+// })
+Route::prefix('v1')->group(function () {
+  Route::prefix('layout')->group(function () {
+    Route::get('init', 'AppLayoutController@getAppInit');
+  });
+});
