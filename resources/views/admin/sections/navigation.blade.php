@@ -32,6 +32,12 @@
                             {{ __('views.backend.section.navigation.menu_0_1') }}
                         </a>
                     </li>
+
+                    <li>
+                      <a href="{{ route('admin.site.navigation')}}" >
+                        Navigation
+                      </a>
+                    </li>
                 </ul>
             </div>
             <div class="menu_section">
@@ -76,7 +82,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="menu_section">
+            <!-- <div class="menu_section">
                 <h3>{{ __('views.backend.section.navigation.sub_header_3') }}</h3>
                 <ul class="nav side-menu">
                   <li>
@@ -86,7 +92,7 @@
                       <a href="https://photolancer.zone/?utm_source=Laravel_Boilerplate&utm_medium=github&utm_campaign=laravel_boilerplate&utm_content=credits" target="_blank" title="Individual digital content for your next campaign"><i class="fa fa-camera-retro" aria-hidden="true"></i>Photolancer Zone</a>
                   </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <!-- /sidebar menu -->
     </div>

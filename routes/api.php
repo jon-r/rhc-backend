@@ -21,7 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //
 // })
 Route::prefix('v1')->group(function () {
+
   Route::prefix('layout')->group(function () {
     Route::get('init', 'AppLayoutController@getAppInit');
   });
+
+  
 });
