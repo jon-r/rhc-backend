@@ -4,7 +4,9 @@
 d.querySelectorAll('[data-sortable]')
 .forEach(el => {
   Sortable.create(el, {
-    handle: '.drag-handle'
+    handle: '.drag-handle',
+    draggable: '.panel-info',
+    animation: 150,
   })
 });
 
@@ -18,37 +20,36 @@ function updateTitle(event) {
 }
 
 d.querySelectorAll('[data-bind]')
-.forEach(input => {
-  input.addEventListener('input', updateTitle);
-});
+.forEach(input => input.addEventListener('input', updateTitle));
 
 
 // add new elements
-function setNewInput(input, n) {
-  input.id = '';
-  input.className = 'panel panel-info';
+function setNewInputs(row, n) {
+  row.id = '';
+  row.className = 'panel panel-info';
 
-  const inputAnchor = input.getElementsByClassName('new-button')[0];
+  row.querySelectorAll('input').forEach(input => {
+    input.id = input.name + n;
+    input.name = input.name + n;
+  });
+  row.querySelectorAll('label').forEach(label => label.htmlFor = label.htmlFor + n);
+  row.querySelector('.fa-plus').className = 'fa fa-ellipsis-v fa-lg fa-fw'
+  row.querySelector('.new-sort').value = n;
+  row.querySelector('.new-title').id = `title_new_${n}`;
+
+  const inputAnchor = row.querySelector('.new-button');
   inputAnchor.className = '';
   inputAnchor.href = `#collapse_new_${n}`;
 
-  const inputTitle = input.getElementsByClassName('new-title')[0];
-  inputTitle.textContent = '';
-  inputTitle.id = `title_new_${n}`
-
-  const inputPanel = input.getElementsByClassName('new-panel')[0]
+  const inputPanel = row.querySelector('.new-panel');
   inputPanel.id = `collapse_new_${n}`;
   inputPanel.classList.add('in');
 
-  const inputName = input.getElementsByClassName('new-name')[0];
+  const inputName = row.querySelector('.new-name');
   inputName.dataset.bind = `title_new_${n}`;
   inputName.addEventListener('input', updateTitle);
 
-  input.getElementsByClassName('fa-plus')[0].className = 'fa fa-ellipsis-v fa-lg fa-fw'
-  input.getElementsByClassName('new-sort')[0].value = n;
-
-
-  return input;
+  return row;
 }
 
 function cloneInput(event) {
@@ -59,7 +60,7 @@ function cloneInput(event) {
   const cloned = d.getElementById(`${targetID}_template`).cloneNode(true);
   const newSort = container.childElementCount;
 
-  container.append(setNewInput(cloned, newSort));
+  container.append(setNewInputs(cloned, newSort));
 }
 
 d.querySelectorAll('[data-new-input]')
