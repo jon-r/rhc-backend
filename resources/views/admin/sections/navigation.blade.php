@@ -34,8 +34,9 @@
                     </li>
 
                     <li>
-                      <a href="{{ route('admin.site.navigation')}}" >
-                        Navigation
+                      <a href="{{ route('admin.site.navigation', ['location' => 'right-menu'])}}" >
+                        <i class="fa fa-sitemap"></i>
+                        Header
                       </a>
                     </li>
                 </ul>

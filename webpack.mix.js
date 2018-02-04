@@ -127,13 +127,17 @@ mix.scripts([
 
 mix.scripts([
   'node_modules/sortablejs/Sortable.js',
-  'resources/assets/admin/js/sortableForms.js',
-], 'public/assets/admin/js/sortableForms.js').version();
+  'resources/assets/admin/js/formHelpers.js',
+], 'public/assets/admin/js/formHelpers.js').version();
 
 mix.styles([
     'node_modules/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css',
     'resources/assets/admin/css/dashboard.css',
 ], 'public/assets/admin/css/dashboard.css').version();
+
+mix.styles([
+  'resources/assets/admin/css/common.css',
+], 'public/assets/admin/css/common.css').version();
 
 
 /*

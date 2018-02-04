@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Settings\Navigation;
 use Illuminate\Support\Facades\DB;
 
 class SiteNavController extends Controller
@@ -12,20 +13,13 @@ class SiteNavController extends Controller
       $this->middleware('auth');
   }
 
-  public function index() {
-    $navBars = [
-      'rightMenu' => $this->getNavBar('rightMenu')
-    ];
+  public function edit($location) {
+    $links = Navigation::where('location', "navbar/$location")->orderBy('sort_order','asc')->get();
 
-    return view('admin.site_nav', ['navBars' => $navBars]);
-
+    return view('admin.appNavigationEditor', compact('links', 'location'));
   }
 
-  private function getNavBar($location) {
-    return DB::table('site_navigation')
-    ->select('*')
-    ->where('location', '=',"navbar/{$location}")
-    ->orderBy('sort_order','asc')
-    ->get();
+  public function save() {
+
   }
 }
