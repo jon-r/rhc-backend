@@ -9,7 +9,7 @@
 
       <div id="links_{{$location}}" data-sortable>
         @foreach ($links as $link)
-        <formgroup class="panel panel-info" >
+        <div class="panel panel-info" >
           <div class="panel-heading drag-handle">
             <a role="button" data-toggle="collapse" href="#collapse_{{$link->id}}" >
               <i class="fa fa-ellipsis-v fa-lg fa-fw"></i>
@@ -25,39 +25,39 @@
               {{ Form::hidden('sort_order', $link->sort_order)}}
 
               {{ Form::label('name', 'Name') }}
-              {{ Form::text('location', $link->name, [ 'class' => 'form-control', 'data-bind' => "#title_$link->id" ]) }}
+              {{ Form::text('name', $link->name, [ 'class' => 'form-control', 'data-bind' => "title_$link->id" ]) }}
 
               {{ Form::label('url', 'URL') }}
               {{ Form::text('location',$link->url, [ 'class' => 'form-control' ]) }}
             </div>
           </div>
-        </formgroup>
+        </div>
         @endforeach
       </div>
 
-      <formgroup class="panel panel-default" id="links_{{$location}}_template" >
+      <div class="panel panel-default" id="links_{{$location}}_template" >
         <div class="panel-heading">
-          <a role="button" data-new-input="#links_{{$location}}">
+          <a role="button" class="new-button" data-toggle="collapse" data-new-input="links_{{$location}}">
             <i class="fa fa-plus fa-lg fa-fw"></i>
-            <span class="panel-title" >
+            <span class="panel-title new-title" >
               Add new item
             </span>
           </a>
         </div>
 
-        <div class="panel-collapse collapse" >
+        <div class="panel-collapse collapse new-panel" >
           <div class="panel-body">
-              <input name="sort_order" type="hidden">
+              <input class="new-sort" name="sort_order" type="hidden">
 
               <label for="name">Name</label>
-              <input class="form-control" data-bind name="location" type="text">
+              <input class="form-control new-name" data-bind name="name" type="text">
 
               <label for="url">URL</label>
               <input class="form-control" name="location" type="text">
           </div>
         </div>
 
-      </formgroup>
+      </div>
 
       {{ Form::close() }}
   </div>
