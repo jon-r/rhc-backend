@@ -53,6 +53,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Dashboard
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
+    // Site Settings
+    Route::get('site/navigation/{location}', 'SiteNavController@edit')->name('site.navigation');
+    Route::put('site/navigation/save', 'SiteNavController@save')->name('site.navigation.save');
+
     //Users
     Route::get('users', 'UserController@index')->name('users');
     Route::get('users/{user}', 'UserController@show')->name('users.show');
