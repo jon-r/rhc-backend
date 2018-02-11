@@ -12,7 +12,7 @@
         @meta
 
         {{--Common App Styles--}}
-        {{ Html::style(mix('assets/app/css/app.css')) }}
+        {{-- {{ Html::style(mix('assets/app/css/app.css')) }} --}}
 
         {{--Styles--}}
         @yield('styles')
@@ -27,7 +27,7 @@
         @yield('page')
 
         {{--Common Scripts--}}
-        {{ Html::script(mix('assets/app/js/app.js')) }}
+        {{-- {{ Html::script(mix('assets/app/js/app.js')) }} --}}
 
         {{--Laravel Js Variables--}}
         @tojs

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+@endsection
+
 @section('page')
   @yield('content')
 @endsection

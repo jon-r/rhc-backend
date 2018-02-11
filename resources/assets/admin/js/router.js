@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router';
 
-import SiteOptions from './vues/SiteOptions.vue'
+import SiteOptions from './vues/SiteOptions/index.vue'
 
 // 1. Define route components.
 // These can be imported from other files

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-fixed-top is-primary">
     <div class="navbar-brand">
-      <router-link to="/" class="navbar-item" active-class="is-active" >
+      <router-link to="/" class="navbar-item" active-class="is-active" exact>
         RHC logo
       </router-link>
 

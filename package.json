@@ -28,6 +28,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "babel-preset-stage-2": "^6.24.1",
     "buefy": "^0.6.3",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",

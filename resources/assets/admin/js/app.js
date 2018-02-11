@@ -40,7 +40,7 @@ if (token) {
 /**
 
 */
-Vue.use(Buefy, {defaultIconPack: 'fa'});
+Vue.use(Buefy, {defaultIconPack: 'fas'});
 Vue.use(VueRouter);
 
 Vue.component('app-main', AppMain);
