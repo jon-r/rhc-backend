@@ -1,12 +1,21 @@
+import Axios from 'axios';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Buefy from 'buefy';
+// import 'buefy/lib/buefy.css';
+
+import store from './store';
+import router from './router';
+
+import AppMain from './vues/AppMain';
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -14,21 +23,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+const token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    Axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-import Vue from 'vue'
-import Buefy from 'buefy'
-import 'buefy/lib/buefy.css'
-
-Vue.use(Buefy, {
-  defaultIconPack: 'fa',
-})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -38,9 +40,12 @@ Vue.use(Buefy, {
 /**
 
 */
+Vue.use(Buefy, {defaultIconPack: 'fa'});
+Vue.use(VueRouter);
 
-Vue.component('app-main', require('../vue/main.vue'));
+Vue.component('app-main', AppMain);
 
 const app = new Vue({
-    el: '#v-app'
-});
+  store,
+  router
+}).$mount('#v-app');

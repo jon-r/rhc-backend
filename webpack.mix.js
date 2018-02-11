@@ -19,6 +19,7 @@ mix.webpackConfig({
     ]
 });
 
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -75,8 +76,11 @@ mix.styles([
  |--------------------------------------------------------------------------
  |
  */
+process.env.NODE_ENV === 'production' && mix.sourceMaps();
 
-mix.js('resources/assets/admin/js/app.js', 'public/assets/admin/js').version();
+mix.js('resources/assets/admin/js/app.js', 'public/assets/admin/js')
+.extract(['axios','vue','vue-router','vuex','buefy'])
+.version();
 
 mix.scripts([
     'node_modules/bootstrap/dist/js/bootstrap.js',

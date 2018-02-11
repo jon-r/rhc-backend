@@ -1,12 +1,10 @@
 @extends('admin.layouts.adminVue')
 
 @section('content')
-    dashboard
 
     <div id="v-app">
       <app-main></app-main>
     </div>
-
 
     <h3>{{ __('views.backend.section.navigation.sub_header_1') }}</h3>
     <ul class="nav side-menu">
