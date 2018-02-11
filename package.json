@@ -15,7 +15,6 @@
     "bootstrap-sass": "^3.3.7",
     "clean-webpack-plugin": "^0.1.16",
     "cross-env": "^3.2.3",
-    "font-awesome": "^4.7.0",
     "gentelella": "^1.4.0",
     "jcarousel": "^0.3.5",
     "jquery": "^3.2.1",
@@ -25,5 +24,9 @@
     "select2": "^4.0.3",
     "sortablejs": "^1.7.0",
     "vue": "^2.1.10"
+  },
+  "devDependencies": {
+    "buefy": "^0.6.3",
+    "font-awesome": "^4.7.0"
   }
 }

@@ -76,6 +76,8 @@ mix.styles([
  |
  */
 
+mix.js('resources/assets/admin/js/app.js', 'public/assets/admin/js').version();
+
 mix.scripts([
     'node_modules/bootstrap/dist/js/bootstrap.js',
     'node_modules/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js',

@@ -6,7 +6,7 @@
     </div>
     <div class="m-b-md">
         Sample users:<br/>
-        Admin user: admin.laravel@labs64.com / password: admin<br/>
+        Admin user: admin.laravel@labs64.com / password: password<br/>
         Demo user: demo.laravel@labs64.com / password: demo
     </div>
 @endsection
