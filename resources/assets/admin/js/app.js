@@ -2,12 +2,11 @@ import Axios from 'axios';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Buefy from 'buefy';
-// import 'buefy/lib/buefy.css';
 
 import store from './store';
 import router from './router';
 
-import AppMain from './vues/AppMain';
+import AppMain from './vues/AppMain.vue';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -26,9 +25,9 @@ Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 const token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    Axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  Axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**
@@ -40,12 +39,16 @@ if (token) {
 /**
 
 */
-Vue.use(Buefy, {defaultIconPack: 'fas'});
+Vue.use(Buefy, { defaultIconPack: 'fas' });
 Vue.use(VueRouter);
 
 Vue.component('app-main', AppMain);
 
 const app = new Vue({
   store,
-  router
+  router,
 }).$mount('#v-app');
+
+export default {
+  app,
+};

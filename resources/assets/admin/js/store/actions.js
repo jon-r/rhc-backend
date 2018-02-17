@@ -1,10 +1,10 @@
-import {fetchFromAPI} from '../helpers/remoteData';
+import { fetchFromAPI } from '../helpers/remoteData';
 
-import {GET_MENUS} from './mutations';
+import { GET_MENUS } from './mutations';
 
 export default {
   async getMenus({ commit }) {
-    let {data} = await fetchFromAPI('/layout/init');
+    const { data } = await fetchFromAPI('/admin/app-layout');
     commit(GET_MENUS, data);
-  }
-}
+  },
+};

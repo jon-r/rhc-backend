@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-const API_ROOT = 'api/v1';//process.env;
+import { API_ROOT } from './config';
 
-export function fetchFromAPI(endpoint, params) {
+export function fetchFromAPI(endpoint) {
   // security+caching to go here
   return axios.get(API_ROOT + endpoint);
+}
+
+export function doSomethingElse() {
+  return true;
 }

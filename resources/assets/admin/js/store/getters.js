@@ -1,5 +1,4 @@
-import state from './state';
 
 export default {
-  getLayoutNavigation: state => state.layout.navigation
-}
+  getLayoutNavigation: state => state.layout.navigation,
+};

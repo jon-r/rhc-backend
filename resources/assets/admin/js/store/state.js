@@ -1,6 +1,5 @@
 export default {
   layout: {
-      navigation: {}
-  }
-
-}
+    navigation: {},
+  },
+};

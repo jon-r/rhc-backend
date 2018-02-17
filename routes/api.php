@@ -17,14 +17,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('site/init', function() {
-//
-// })
 Route::prefix('v1')->group(function () {
+  // admin CMS
+  Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
+    Route::get('/app-layout', 'AppLayoutController@getLayout');
+
+
+  });
+
+
 
   Route::prefix('layout')->group(function () {
     Route::get('init', 'AppLayoutController@getAppInit');
   });
 
-  
 });
