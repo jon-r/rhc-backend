@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,5 +15,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+    }
+
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
     }
 }
