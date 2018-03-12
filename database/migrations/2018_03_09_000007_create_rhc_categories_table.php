@@ -28,8 +28,8 @@ class CreateRhcCategoriesTable extends Migration
             $table->string('slug', 32);
             $table->unsignedTinyInteger('cat_group')->default('0');
             $table->unsignedTinyInteger('sort_order')->default('0');
-            $table->string('description')->default('');
-            $table->string('image_link')->default('');
+            $table->string('description', 1024)->default('');
+            $table->string('image_link', 255)->default('');
 
             $table->index(["cat_group"], 'rhc_categories_cat_group_foreign');
 

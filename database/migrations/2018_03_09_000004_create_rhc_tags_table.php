@@ -24,7 +24,7 @@ class CreateRhcTagsTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->mediumIncrements('id');
-            $table->string('name', 32);
+            $table->string('name', 64);
 
             $table->unique(["name"], 'rhc_tags_name_unique');
         });

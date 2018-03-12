@@ -28,13 +28,13 @@ class CreateRhcProductsTable extends Migration
             $table->unsignedTinyInteger('rhc_status')->default('0');
             $table->string('curlew_ref', 20)->default('');
             $table->unsignedTinyInteger('curlew_status')->default('0');
-            $table->string('shop_notes')->default('');
+            $table->string('shop_notes', 255)->default('');
             $table->unsignedTinyInteger('photos_status')->default('0');
             $table->unsignedTinyInteger('print_status')->default('0');
-            $table->string('print_notes')->default('');
-            $table->string('invoice')->default('');
-            $table->string('product_name')->default('');
-            $table->string('description')->default('');
+            $table->string('print_notes', 255)->default('');
+            $table->string('invoice', 255)->default('');
+            $table->string('product_name', 255)->default('');
+            $table->string('description', 4098)->default('');
             $table->unsignedSmallInteger('quantity')->default('1');
             $table->decimal('price', 7, 0)->default('0');
             $table->decimal('original_price', 7, 0)->default('0');
@@ -42,10 +42,10 @@ class CreateRhcProductsTable extends Migration
             $table->unsignedTinyInteger('is_featured')->default('0');
             $table->unsignedTinyInteger('site_flag')->default('0');
             $table->unsignedTinyInteger('site_icon')->default('0');
-            $table->string('site_seo_text')->default('');
+            $table->string('site_seo_text', 255)->default('');
             $table->dateTime('date_live')->nullable()->default(null);
             $table->dateTime('date_sold')->nullable()->default(null);
-            $table->string('video_link')->default('');
+            $table->string('video_link', 255)->default('');
 
             $table->index(["rhc_ref"], 'rhc_products_rhc_ref_index');
 

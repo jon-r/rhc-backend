@@ -24,13 +24,13 @@ class CreateSiteNavigationTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('name');
-            $table->string('url');
-            $table->string('location');
+            $table->string('name', 255);
+            $table->string('url', 255);
+            $table->string('location', 255);
             $table->unsignedTinyInteger('sort_order')->default('0');
-            $table->string('image_link')->default('');
+            $table->string('image_link', 255)->default('');
             $table->tinyInteger('load_on_init')->default('0');
-            $table->string('text_content')->default('');
+            $table->string('text_content', 255)->default('');
         });
     }
 

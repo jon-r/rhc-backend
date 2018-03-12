@@ -26,8 +26,8 @@ class CreateRhcGroupsTable extends Migration
             $table->tinyIncrements('id');
             $table->string('group_name', 64);
             $table->unsignedTinyInteger('sort_order')->default('0');
-            $table->string('description')->default('');
-            $table->string('image_link')->default('');
+            $table->string('description', 1024)->default('');
+            $table->string('image_link', 255)->default('');
 
             $table->index(["sort_order"], 'rhc_groups_sort_order_index');
         });

@@ -24,9 +24,9 @@ class CreateSiteOptionsTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('name');
-            $table->string('location');
-            $table->string('value');
+            $table->string('name', 255);
+            $table->string('location', 255);
+            $table->string('value', 255);
             $table->tinyInteger('load_on_init')->default('0');
         });
     }

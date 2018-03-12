@@ -25,8 +25,8 @@ class CreateRhcSpecsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedMediumInteger('product_id');
-            $table->string('name');
-            $table->string('value');
+            $table->string('name', 255);
+            $table->string('value', 255);
             $table->unsignedTinyInteger('sort_order')->default('0');
 
             $table->index(["product_id"], 'rhc_specs_product_id_foreign');
