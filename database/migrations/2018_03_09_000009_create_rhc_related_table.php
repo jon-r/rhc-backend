@@ -33,13 +33,13 @@ class CreateRhcRelatedTable extends Migration
 
             $table->foreign('product_id', 'rhc_related_product_id_foreign')
                 ->references('id')->on('rhc_products')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('related_id', 'rhc_related_related_id_foreign')
                 ->references('id')->on('rhc_products')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

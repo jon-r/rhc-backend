@@ -34,12 +34,12 @@ class CreateRhcCategoriesXrefsTable extends Migration
             $table->foreign('category_id', 'rhc_categories_xrefs_category_id_foreign')
                 ->references('id')->on('rhc_categories')
                 ->onDelete('cascade')
-                ->onUpdate('restrict');
+                ->onUpdate('cascade');
 
             $table->foreign('product_id', 'rhc_categories_xrefs_product_id_foreign')
                 ->references('id')->on('rhc_products')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

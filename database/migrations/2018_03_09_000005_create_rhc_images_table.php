@@ -33,8 +33,8 @@ class CreateRhcImagesTable extends Migration
 
             $table->foreign('product_id', 'fk_rhc_images_rhc_products1_idx')
                 ->references('id')->on('rhc_products')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

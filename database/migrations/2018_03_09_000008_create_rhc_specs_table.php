@@ -34,8 +34,8 @@ class CreateRhcSpecsTable extends Migration
 
             $table->foreign('product_id', 'rhc_specs_product_id_foreign')
                 ->references('id')->on('rhc_products')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

@@ -40,8 +40,8 @@ class CreateRhcCategoriesTable extends Migration
 
             $table->foreign('cat_group', 'rhc_categories_cat_group_foreign')
                 ->references('id')->on('rhc_groups')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

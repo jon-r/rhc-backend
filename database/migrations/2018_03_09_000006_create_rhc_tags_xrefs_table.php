@@ -33,13 +33,13 @@ class CreateRhcTagsXrefsTable extends Migration
 
             $table->foreign('product_id', 'rhc_tags_xrefs_product_id_foreign')
                 ->references('id')->on('rhc_products')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('tag_id', 'rhc_tags_xrefs_tag_id_foreign')
                 ->references('id')->on('rhc_tags')
                 ->onDelete('cascade')
-                ->onUpdate('restrict');
+                ->onUpdate('cascade');
         });
     }
 

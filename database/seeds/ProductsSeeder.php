@@ -14,8 +14,6 @@ class ProductsSeeder extends Seeder
   {
       $products = DB::table('networked db')->get();
 
-      // DB::table('rhc_products')->delete();
-
       foreach ($products as $k => $p) {
         DB::table('rhc_products')->insert([
           'rhc_ref' => $p->RHC,
@@ -63,7 +61,7 @@ class ProductsSeeder extends Seeder
   private function getStatusFrom($optionDefault, ...$optionsArr) {
     $i = count($optionsArr);
     while ($i) {
-      if ($optionsArr[$i - 1]) return $i;
+      if ($optionsArr[$i - 1]) return $i + 1;
       $i--;
     }
     return $optionDefault;
