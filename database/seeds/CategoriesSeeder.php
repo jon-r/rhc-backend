@@ -37,9 +37,33 @@ class CategoriesSeeder extends Seeder
         'description' => $c->CategoryDescription,
       ]);
     }
+
+    $this->insertCategoryXrefs();
   }
 
   private function slugify($title) {
     return preg_replace('/[^\w]+/','-', strtolower($title));
+  }
+
+  private function insertCategoryXrefs() {
+    $categories = ['Category', 'Cat1', 'Cat2', 'Cat3'];
+    foreach ($categories as $cat) {
+      $products = DB::table('networked db')
+      ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'networked db.RHC')
+      ->join('rhc_categories', 'rhc_categories.cat_name', '=', "networked db.$cat")
+      ->select('rhc_products.id as product_id','rhc_categories.id as category_id')
+      ->get();
+
+      foreach ($products as $key => $row) {
+        DB::table('rhc_categories_xrefs')->insert([
+          'product_id' => $row->product_id,
+          'category_id' => $row->category_id,
+        ]);
+      }
+    }
+  }
+
+  private function selectCategory($cat) {
+
   }
 }
