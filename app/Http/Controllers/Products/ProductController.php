@@ -8,82 +8,76 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
-  // /**
-  //  * Create a new controller instance.
-  //  *
-  //  * @return void
-  //  */
-  // public function __construct()
-  // {
-  //     //
-  // }
+  private $values = [
+    'id',
+    'rhc_ref',
+    'rhc_status',
+    'curlew_ref',
+    'curlew_status',
+    'shop_notes',
+    'photos_status',
+    'print_status',
+    'print_notes',
+    'invoice',
+    'product_name',
+    'description',
+    'quantity',
+    'price',
+    'original_price',
+    'is_job_lot',
+    'is_featured',
+    'site_flag',
+    'site_icon',
+    'site_seo_text',
+    'date_live',
+    'date_sold',
+    'video_link',
+  ];
 
   public function new() {
-
+// add new item
   }
 
   public function store() {
-
-  }
-
-  public function edit($id) {
-
+// save new item
   }
 
   public function show($id) {
+    // \DB::enableQueryLog();
+    // todo 'return not found' helper
+    if (!Product::find($id)) {
+        return response([
+          'status' => 'error',
+          'error'=> 'not found',
+          'message' => 'Not found',
+          // 'debug' => \DB::getQueryLog()
+        ], 404);
+    }
 
-  }
-
-  private $listValues = ['id','rhc_ref','product_name','rhc_status','price','shop_notes','curlew_status'];
-
-  private function listAll() {
-    return Product::select(...$this->listValues);
-  }
-
-  private function listToGoOnline() {
-    return Product::select(...$this->listValues)
-    ->where([
-      ['rhc_status', '=', 0],
-      ['quantity', '>', 0],
-    ])
-    ->orWhere([
-      ['curlew_status', '=', 0],
-      ['quantity', '>', 0],
-    ]);
-  }
-
-  public function list(Request $req, $common = false) {
-    switch ($common) {
-      case 'toGoOnline':
-        $selected = $this->listToGoOnline();
-        break;
-      default:
-        $selected = $this->listAll();
-    };
-
-    $count = $selected->count();
-
-    $products = $selected->orderBy('id', 'desc')
-    ->limit(20)
-    ->offset(($req->query('page', 1) - 1) * 20)
-    ->get();
+    $product = Product::select(...$this->values)
+    ->where('id', '=', $id)
+    ->with([
+      'specs:product_id,name,value,sort_order',
+      'categories:id,cat_name',
+      'tags',
+      'images',
+      'related:id,product_name',
+    ])->first();
 
     return response([
       'status' => 'success',
       'values' => [
-        'req' => $req->all(), // todo remove this. for debug only
-        'count' => $count,
-        'items' => $products,
+        'product' => $product,
+        // 'debug' => \DB::getQueryLog()
       ]
     ]);
   }
 
-  public function listCategory(Request $req) {
-
+  public function edit($id) {
+// update existing item
   }
 
   public function delete($id) {
-
+// delete existing item
   }
 }

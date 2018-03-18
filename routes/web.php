@@ -28,7 +28,9 @@ $router->group([
   'namespace' => 'Products',
   'middleware' => ['cors'] // todo add auth
 ], function ($app) use ($router) {
-  $router->get('/cms/products/list[/{common}]', 'ProductController@list');
+  $router->get('/cms/products/list/toGoOnline', 'ListController@toGoOnline');
+
+  $router->get('/cms/product/show/{id}', 'ProductController@show');
 });
 // products frontend
 // $router->group([
