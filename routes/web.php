@@ -22,6 +22,24 @@ $router->options('{any}', [
   }
 ]);
 
+// products CMS
+$router->group([
+  'prefix' => 'api/v1',
+  'namespace' => 'Products',
+  'middleware' => ['cors'] // todo add auth
+], function ($app) use ($router) {
+  $router->get('/cms/products/list[/{common}]', 'ProductController@list');
+});
+// products frontend
+// $router->group([
+//   'prefix' => 'api/v1',
+//   'namespace' => 'Products',
+//   'middleware' => ['cors']
+// ], function ($app) use ($router) {
+//   $router->get('/cms/products/listAll/{category?}', 'ProductController@listCategory');
+// });
+
+// auth
 $router->group([
   'prefix' => 'api/v1',
   'namespace' => 'Auth',

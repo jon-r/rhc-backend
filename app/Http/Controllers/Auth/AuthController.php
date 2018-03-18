@@ -2,7 +2,7 @@
 use Auth;
 use JWTAuth;
 use JWTFactory;
-use App\User;
+use App\Models\User;
 // use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRegisterRequest;
