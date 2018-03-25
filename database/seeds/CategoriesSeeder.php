@@ -48,9 +48,9 @@ class CategoriesSeeder extends Seeder
   private function insertCategoryXrefs() {
     $categories = ['Category', 'Cat1', 'Cat2', 'Cat3'];
     foreach ($categories as $cat) {
-      $products = DB::table('networked db')
-      ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'networked db.RHC')
-      ->join('rhc_categories', 'rhc_categories.cat_name', '=', "networked db.$cat")
+      $products = DB::table('old_networked')
+      ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'old_networked.RHC')
+      ->join('rhc_categories', 'rhc_categories.cat_name', '=', "old_networked.$cat")
       ->select('rhc_products.id as product_id','rhc_categories.id as category_id')
       ->get();
 

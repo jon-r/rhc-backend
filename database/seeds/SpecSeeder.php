@@ -45,28 +45,28 @@ class SpecSeeder extends Seeder
   }
 
   private function selectSpec($name, $sort) {
-    return DB::table('networked db')
+    return DB::table('old_networked')
     ->where([
       [$name, '<>', '0'],
       [$name, '<>', ''],
       [$name, '<>', 0],
     ])
-    ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'networked db.RHC')
+    ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'old_networked.RHC')
     ->select(
       'rhc_products.id as product_id',
-      "networked db.$name as value",
+      "old_networked.$name as value",
       DB::raw("'$name' as name, $sort as sort_order")
     );
   }
 
   private function selectPower() {
-    $power = 'networked db.Power';
-    $wattage = 'networked db.Wattage';
+    $power = 'old_networked.Power';
+    $wattage = 'old_networked.Wattage';
 
-    return DB::table('networked db')
+    return DB::table('old_networked')
     ->where($power, '<>', '0')
     ->orwhere($wattage, '>', 0)
-    ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'networked db.RHC')
+    ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'old_networked.RHC')
     ->select(
       'rhc_products.id as product_id',
       "$power as power",
@@ -104,14 +104,14 @@ class SpecSeeder extends Seeder
   }
 
   private function selectExtras() {
-    $extras = 'networked db.ExtraMeasurements';
+    $extras = 'old_networked.ExtraMeasurements';
 
-    return DB::table('networked db')
+    return DB::table('old_networked')
     ->where([
       [$extras, '<>', '0'],
       [$extras, '<>', ''],
     ])
-    ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'networked db.RHC')
+    ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'old_networked.RHC')
     ->select(
       'rhc_products.id as product_id',
       "$extras as value_list"

@@ -12,7 +12,7 @@ class ProductsSeeder extends Seeder
    */
   public function run()
   {
-      $products = DB::table('networked db')->get();
+      $products = DB::table('old_networked')->get();
 
       foreach ($products as $k => $p) {
         DB::table('rhc_products')->insert([
