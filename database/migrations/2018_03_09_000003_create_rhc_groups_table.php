@@ -23,13 +23,12 @@ class CreateRhcGroupsTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->tinyIncrements('id');
+            $table->increments('id');
             $table->string('group_name', 64);
             $table->unsignedTinyInteger('sort_order')->default('0');
             $table->string('description', 1024)->default('');
             $table->string('image_link', 255)->default('');
 
-            $table->index(["sort_order"], 'rhc_groups_sort_order_index');
         });
     }
 

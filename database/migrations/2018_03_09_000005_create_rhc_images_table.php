@@ -26,7 +26,8 @@ class CreateRhcImagesTable extends Migration
             $table->increments('id');
             $table->string('image_link', 255);
             $table->string('image_meta', 1024);
-            $table->unsignedMediumInteger('product_id');
+            $table->unsignedTinyInteger('sort_order')->default('0');
+            $table->unsignedInteger('product_id');
 
             $table->index(["product_id"], 'fk_rhc_images_rhc_products1_idx');
 

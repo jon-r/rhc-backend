@@ -23,8 +23,8 @@ class CreateRhcRelatedTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->unsignedMediumInteger('product_id');
-            $table->unsignedMediumInteger('related_id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('related_id');
 
             $table->index(["related_id"], 'rhc_related_related_id_foreign');
 

@@ -33,7 +33,6 @@ class ProductsSeeder extends Seeder
             $p->SkipPrint
           ),
           'print_notes' => $p->PrintSize,
-          'invoice' => $p->InvoiceNumber,
           'product_name' => $p->ProductName,
           'description' => $this->getDescription(
             $p->{'Line 1'},
@@ -51,8 +50,6 @@ class ProductsSeeder extends Seeder
             $p->Cat3
           ),
           'site_seo_text' => $p->SEO_meta_text,
-          'date_live' => $p->DateLive  !== '0000-00-00 00:00:00' ? $p->DateLive : null,
-          'date_sold' => $p->DateSold !== '0000-00-00 00:00:00' ? $p->DateSold : null,
           'video_link' => $p->video_link
         ]);
       }

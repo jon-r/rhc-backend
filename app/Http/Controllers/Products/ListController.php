@@ -12,6 +12,7 @@ class ListController extends Controller
 
   public function toGoOnline(Request $req) {
     $products = Product::select(...$this->values)
+    ->selectRaw('length(description) as description_length')
     ->where([
       ['rhc_status', '=', 0],
       ['quantity', '>', 0],
@@ -20,24 +21,23 @@ class ListController extends Controller
       ['curlew_status', '=', 0],
       ['quantity', '>', 0],
     ])
+    ->withCount([
+      'categories',
+      'images'
+    ])
     ->orderBy('id', 'desc');
 
     return $this->response($products, $req);
   }
 
   private function response($products, Request $req) {
-    $count = $products->count();
-
-    $items = $products
-    ->limit(20)
-    ->offset(($req->query('page', 1) - 1) * 20)
-    ->get();
+    // pagination handled frontend be default, most queries will be below 100 items
+    $items = $products->get();
 
     return response([
       'status' => 'success',
       'values' => [
-        // 'req' => $req->all(), 
-        'count' => $count,
+        'req' => $req->all(), 
         'items' => $items,
       ]
     ]);

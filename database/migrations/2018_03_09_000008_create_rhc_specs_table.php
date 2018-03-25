@@ -24,7 +24,7 @@ class CreateRhcSpecsTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->unsignedMediumInteger('product_id');
+            $table->unsignedInteger('product_id');
             $table->string('name', 255);
             $table->string('value', 255);
             $table->unsignedTinyInteger('sort_order')->default('0');
