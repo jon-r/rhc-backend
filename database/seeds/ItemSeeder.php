@@ -15,6 +15,10 @@ abstract class ItemStatus
 
 class ItemSeeder extends Seeder
 {
+    public function minDate() {
+        return strtotime('2010-01-01');
+    }
+
     /**
      * Run the database seeds.
      *
@@ -22,9 +26,9 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
-        $workshop = DB::table('old_workshop_work')
+        $workshop = DB::table('old_workshop_db')
             ->where('product_ref', '>', 0)
-            ->join('workshop', 'workshop.workshop_number', '=', 'old_workshop_work.product_ref')
+            ->join('workshop', 'workshop.workshop_number', '=', 'old_workshop_db.product_ref')
             ->get();
 
         $products = DB::table('old_networked')
@@ -35,54 +39,65 @@ class ItemSeeder extends Seeder
             ->join('sales', 'sales.invoice', '=', 'old_networked.InvoiceNumber')
             ->get();
 
-        $items = [];
+        $fromWorkshop = [];
 
         // workshop MUST be first. many workshop = one product
         foreach ($workshop as $k => $w) {
-            $pKey = array_search($w->RHC, array_column($products, 'rhc_ref'));
-            $p = $pKey ? $products[$pKey] : null;
-
-            $sKey = array_search($w->RHC, array_column($sales, 'rhc_ref'));
-            $s = $sKey ? $sales[$sKey] : null;
+            $p = $this->findInObject('RHC',$w->RHC, $products);
+            $s = $this->findInObject('RHC',$w->RHC, $sales);
 
             $status = $this->getWorkshopStatus($w, $p);
 
-            $items[] = [
+            $fromWorkshop[] = [
                 'name' => $w->Item,
                 'status' => $status,
-                'serial_number' => $this->getIfExists($w->SerialNumber, $p->SerialNo),
+                'serial_number' => $this->getSerial($w, $p),
                 'workshop_id' => $w->id,
-                'workshop_in' => $w->Date_In,
-                'workshop_out' => $w->Date_Out,
-                'product_id' => $this->getIfExists($p->id),
-                'date_live' => $this->getIfExists($p->DateLive),
-                'date_sold' => $this->getSoldDate($status, $p->DateSold, $w->Date_Out),
-                'sales_id' => $this->getIfExists($s->id),
+                'workshop_in' => strtotime($w->Date_In) > $this->minDate() ? $w->Date_In : null,
+                'workshop_out' => strtotime($w->Date_Out) > $this->minDate() ? $w->Date_Out : null,
+                'product_id' => $this->valueExists($p, 'id') ?: null,
+                'date_live' => $this->valueExists($p, 'DateLive') && strtotime($p->DateLive) > $this->minDate() ? $p->DateLive : null,
+                'date_sold' => $p ? $this->getSoldDate($status, $w, $p) : null,
+                'sales_id' => $this->valueExists($s, 'id') ?: null,
                 'date_scrapped' => $this->getScrappedDate($status, $w->Date_Out),
             ];
         }
 
+        DB::table('items')->insert($fromWorkshop);
+        $items = DB::table('items')->get();
+
+        $fromProducts = [];
+
         foreach ($products as $k => $p) {
-            if (!array_search($p->id, array_column($items, 'product_id'))) {
-                // todo add sales here
-                $sKey = array_search($p->rhc_ref, array_column($sales, 'rhc_ref'));
-                $s = $sKey ? $sales[$sKey] : null;
+            if (!$this->findInObject('product_id',$p->id, $items)) {
+                $s = $this->findInObject('RHC',$p->RHC, $sales);
 
                 $status = $this->getRHCStatus($p);
 
-                $items[] = [
+                $fromProducts[] = [
                     'name' => $p->ProductName,
                     'status' => $status,
-                    'serial_number' => $this->getIfExists($p->SerialNo),
+                    'serial_number' => $this->valueExists($p,'SerialNo') ?: '',
                     'product_id' => $p->id,
-                    'date_live' => $p->DateLive,
-                    'date_sold' => $this->getSoldDate($status, $p->DateSold),
-                    'sales_id' => $this->getIfExists($s->id)
+                    'date_live' => strtotime($p->DateLive) > $this->minDate() ? $p->DateLive : null,
+                    'date_sold' => $this->getSoldDate($status, null, $p),
+                    'sales_id' => $this->valueExists($s,'id') ?: null
                 ];
             }
         }
 
-        DB::table('items')->insert($items);
+        DB::table('items')->insert($fromProducts);
+    }
+
+    private function findInObject($key,$value,$object) {
+        $item = null;
+        foreach($object as $row) {
+            if ($value > 0 && $row->$key === $value) {
+                $item = $row;
+                break;
+            }
+        }
+        return $item;
     }
 
     private function getWorkshopStatus($w, $p)
@@ -110,37 +125,28 @@ class ItemSeeder extends Seeder
         }
     }
 
-    private function getIfExists(...$values)
-    {
-        $out = null;
 
-        foreach ($values as $value) {
-            if ($value && $value !== '0') {
-                $out = $value;
-                break;
-            }
-        }
-
-        return $out;
+    private function getSerial($w, $p) {
+        return $this->valueExists($w, 'SerialNumber') ?: $this->valueExists($p, 'SerialNo') ?: '';
     }
 
-    private function getSoldDate($status, ... $dates)
+    private function valueExists($obj, $key) {
+        return $obj && $obj->$key && $obj->$key !== '0' ? $obj->$key : false;
+    }
+
+    private function getSoldDate($status, $w, $p)
     {
-        $newest = 0;
+        $date = null;
 
         if ($status === ItemStatus::IsSold) {
-            foreach ($dates as $date) {
-                if ($date && strtotime($date) > $newest) {
-                    $newest = $date;
-                }
-            }
+            $date = $this->valueExists($p, 'DateSold') ?: $this->valueExists($w, 'Date_out');
         }
 
-        return $newest ?? null;
+        return ( $date && strtotime($date) > $this->minDate()) ? $date : null;
     }
 
     private function getScrappedDate($status, $date) {
-        if ($status === ItemStatus::IsScrapped) {
+        if ($status === ItemStatus::IsScrapped && strtotime($date)  > $this->minDate()) {
             return $date;
         } else {
             return null;

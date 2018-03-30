@@ -19,29 +19,29 @@ class SpecSeeder extends Seeder
     ->union($this->selectSpec('Depth', 4))
     ->get();
 
+    $inserted = [];
+
     foreach ($specs as $k => $s) {
-      DB::table('rhc_specs')->insert([
+      $inserted[] = [
         'product_id' => $s->product_id,
         'name' => $s->name,
         'value' => $s->value,
         'sort_order' => $s->sort_order,
-      ]);
+      ];
     }
 
     $power = $this->selectPower()->get();
     foreach ($power as $k => $values) {
-      DB::table('rhc_specs')->insert(
-        $this->joinPower($values)
-      );
+      $inserted = array_merge($inserted, $this->joinPower($values));
     }
 
     $extras = $this->selectExtras()->get();
 
     foreach ($extras as $k => $values) {
-      DB::table('rhc_specs')->insert(
-        $this->splitExtras($values)
-      );
+        $inserted = array_merge($inserted, $this->splitExtras($values));
     }
+
+    DB::table('rhc_specs')->insert($inserted);
   }
 
   private function selectSpec($name, $sort) {
@@ -75,10 +75,7 @@ class SpecSeeder extends Seeder
   }
 
   private function joinPower($row) {
-    // todo fix power;
-    // $arr = [];
     $offset = 5;
-
 
     if ($row->watts > 1500) {
       $watts = ($row->watts / 1000).'kw';

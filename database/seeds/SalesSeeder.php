@@ -25,12 +25,14 @@ class SalesSeeder extends Seeder
             ])
             ->orderBy('DateSold', 'asc')
             ->get();
+        $inserted = [];
 
         foreach ($products as $k => $p) {
-            DB::table('sales')->insert([
+            $inserted[] = [
                 'invoice' => $p->InvoiceNumber,
                 'notes' => $p->notes,
-            ]);
+            ];
         }
+        DB::table('sales')->insert($inserted);
     }
 }

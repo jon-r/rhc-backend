@@ -13,9 +13,9 @@ class ProductsSeeder extends Seeder
   public function run()
   {
       $products = DB::table('old_networked')->get();
-
+      $inserted = [];
       foreach ($products as $k => $p) {
-        DB::table('rhc_products')->insert([
+        $inserted[] = [
           'rhc_ref' => $p->RHC,
           'rhc_status' => $p->LiveonRHC,
           'curlew_ref' => $p->CurlewRef,
@@ -51,8 +51,9 @@ class ProductsSeeder extends Seeder
           ),
           'site_seo_text' => $p->SEO_meta_text,
           'video_link' => $p->video_link
-        ]);
+        ];
       }
+      DB::table('rhc_products')->insert($inserted);
   }
 
   private function getStatusFrom($optionDefault, ...$optionsArr) {

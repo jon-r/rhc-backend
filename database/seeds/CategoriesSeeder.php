@@ -17,26 +17,28 @@ class CategoriesSeeder extends Seeder
             ->where('CategoryGroup', '<>', '')
             ->get();
 
+        $inserted = [];
         foreach ($groups as $i => $group) {
-            DB::table('rhc_groups')->insert([
-                'group_name' => $group->CategoryGroup,
-            ]);
+            $inserted[] =['group_name' => $group->CategoryGroup];
         }
+        DB::table('rhc_groups')->insert($inserted);
 
         $categories = DB::table('old_rhc_categories')
             ->where('Category_ID', '>', 0)
             ->join('rhc_groups', 'old_rhc_categories.CategoryGroup', '=', 'rhc_groups.group_name')
             ->get();
 
+        $inserted = [];
         foreach ($categories as $k => $c) {
-            DB::table('rhc_categories')->insert([
+            $inserted[] = [
                 'cat_name' => $c->Name,
                 'slug' => $this->slugify($c->Name),
                 'sort_order' => $c->List_Order,
                 'cat_group' => $c->id,
                 'description' => $c->CategoryDescription,
-            ]);
+            ];
         }
+        DB::table('rhc_categories')->insert($inserted);
 
         $this->insertCategoryXrefs();
     }
@@ -48,6 +50,7 @@ class CategoriesSeeder extends Seeder
 
     private function insertCategoryXrefs()
     {
+        $inserted = [];
         $categories = ['Category', 'Cat1', 'Cat2', 'Cat3'];
         foreach ($categories as $cat) {
             $products = DB::table('old_networked')
@@ -57,11 +60,12 @@ class CategoriesSeeder extends Seeder
                 ->get();
 
             foreach ($products as $key => $row) {
-                DB::table('rhc_categories_xrefs')->insert([
+                $inserted[] = [
                     'product_id' => $row->product_id,
                     'category_id' => $row->category_id,
-                ]);
+                ];
             }
         }
+        DB::table('rhc_categories_xrefs')->insert($inserted);
     }
 }

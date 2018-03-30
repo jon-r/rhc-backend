@@ -15,7 +15,6 @@ class CreateWorkshopTable extends Migration
     {
         Schema::create('workshop', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->unsignedInteger('workshop_number')->default(0);
             $table->string('notes', 512)->default('');
             $table->boolean('is_completed')->default(0);

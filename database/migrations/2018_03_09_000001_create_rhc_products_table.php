@@ -48,7 +48,6 @@ class CreateRhcProductsTable extends Migration
             $table->index(["rhc_ref"], 'rhc_products_rhc_ref_index');
 
             $table->unique(["rhc_ref"], 'rhc_ref_UNIQUE');
-            $table->nullableTimestamps();
         });
     }
 

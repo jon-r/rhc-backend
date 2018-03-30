@@ -15,7 +15,6 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->string('invoice', 255)->default('');
             $table->unsignedInteger('contacts_id')->nullable()->default(null);
             $table->decimal('invoice_price', 7, 2)->default('0');
