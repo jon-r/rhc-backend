@@ -17,7 +17,7 @@ class CreateWorkshopWorkTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->unsignedInteger('workshop_id');
+            $table->unsignedInteger('workshop_id')->default(0);
             $table->string('staff_name', 255)->default('');
             $table->string('notes', 255)->default('');
             $table->string('time_taken', 255)->default('');

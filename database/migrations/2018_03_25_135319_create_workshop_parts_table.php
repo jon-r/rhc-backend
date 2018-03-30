@@ -16,7 +16,7 @@ class CreateWorkshopPartsTable extends Migration
         Schema::create('workshop_parts', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->unsignedInteger('workshop_id');
+            $table->unsignedInteger('workshop_id')->default(0);
             $table->string('part_name', 255)->default('');
             $table->string('ordered_by', 255)->default('');
             $table->string('notes', 255)->default('');

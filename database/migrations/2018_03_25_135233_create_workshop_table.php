@@ -18,7 +18,9 @@ class CreateWorkshopTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('workshop_number')->default(0);
             $table->string('notes', 512)->default('');
-            $table->boolean('is_completed');
+            $table->boolean('is_completed')->default(0);
+
+            $table->unique(["workshop_number"], 'workshop_number_UNIQUE');
         });
     }
 

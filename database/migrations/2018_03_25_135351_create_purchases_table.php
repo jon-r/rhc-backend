@@ -16,7 +16,7 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->unsignedInteger('contacts_id');
+            $table->unsignedInteger('contacts_id')->nullable()->default(null);
             $table->decimal('purchase_price', 7, 2)->default('0');
             $table->string('notes', 255)->default('');
             $table->string('purchase_ref', 255)->default('');

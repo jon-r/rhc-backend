@@ -17,23 +17,22 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name', 255)->default('');
-            $table->unsignedTinyInteger('status')->default(null);
+            $table->unsignedTinyInteger('status')->default(0);
             $table->string('serial_number', 255)->default('');
 
-            $table->unsignedInteger('purchases_id');
-            $table->dateTime('purchased_date')->nullable()->default(null);
+            $table->unsignedInteger('purchases_id')->nullable();
+            $table->dateTime('purchased_date')->nullable();
 
-            $table->unsignedInteger('workshop_id');
-            $table->dateTime('workshop_in')->nullable()->default(null);
-            $table->dateTime('workshop_out')->nullable()->default(null);
+            $table->unsignedInteger('workshop_id')->nullable();
+            $table->dateTime('workshop_in')->nullable();
+            $table->dateTime('workshop_out')->nullable();
 
-            $table->unsignedInteger('product_id');
-            $table->dateTime('date_live')->nullable()->default(null);
-            $table->dateTime('date_sold')->nullable()->default(null);
+            $table->unsignedInteger('product_id')->nullable();
+            $table->dateTime('date_live')->nullable();
+            $table->dateTime('date_sold')->nullable();
 
-            $table->unsignedInteger('sales_id');
-            $table->dateTime('scrapped')->nullable()->default(null);
-            $table->dateTime('sold')->nullable()->default(null);
+            $table->unsignedInteger('sales_id')->nullable();
+            $table->dateTime('date_scrapped')->nullable();
 
 
             $table->index(["product_id"], 'fk_items_rhc_products1_idx');
