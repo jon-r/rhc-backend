@@ -12,3 +12,17 @@ if ( ! function_exists('config_path'))
         return app()->basePath() . '/config' . ($path ? '/' . $path : $path);
     }
 }
+
+function notFoundResponse() {
+    $response = [
+        'status' => 'error',
+        'error'=> 'not found',
+        'message' => 'Not found',
+    ];
+
+    if (env('APP_DEBUG', false)) {
+        $response += ['debug' => \DB::getQueryLog()];
+    }
+
+    return response($response, 404);
+}

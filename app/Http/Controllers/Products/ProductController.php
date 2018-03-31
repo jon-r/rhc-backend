@@ -42,15 +42,8 @@ class ProductController extends Controller
   }
 
   public function show($id) {
-    // \DB::enableQueryLog();
-    // todo 'return not found' helper
     if (!Product::find($id)) {
-        return response([
-          'status' => 'error',
-          'error'=> 'not found',
-          'message' => 'Not found',
-          // 'debug' => \DB::getQueryLog()
-        ], 404);
+        return notFoundResponse();
     }
 
     $product = Product::select(...$this->values)

@@ -22,16 +22,26 @@ $router->options('{any}', [
   }
 ]);
 
-// products CMS
-$router->group([
-  'prefix' => 'api/v1',
-  'namespace' => 'Products',
-  'middleware' => ['cors'] // todo add auth
-], function ($app) use ($router) {
-  $router->get('/cms/products/list/toGoOnline', 'ListController@toGoOnline');
+/* -------------------
+ *
+ * CMS Routes
+ *
+ * ----------------- */
 
-  $router->get('/cms/product/show/{id}', 'ProductController@show');
+// products
+$router->group([
+  'prefix' => 'api/v1/cms',
+  'namespace' => 'Products',
+  'middleware' => ['cors', 'debug'] // todo add auth
+], function ($app) use ($router) {
+  $router->get('/products/list/toGoOnline', 'ListController@toGoOnline');
+
+  $router->get('/product/show/{id}', 'ProductController@show');
+
+  $router->get('/categories', 'CategoriesController@show');
 });
+
+
 // products frontend
 // $router->group([
 //   'prefix' => 'api/v1',
