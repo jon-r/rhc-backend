@@ -26,19 +26,19 @@ class CreateRhcCategoriesTable extends Migration
             $table->increments('id');
             $table->string('cat_name', 32);
             $table->string('slug', 32);
-            $table->unsignedInteger('cat_group')->default('0');
+            $table->unsignedInteger('group_id')->default('0');
             $table->unsignedTinyInteger('sort_order')->default('0');
             $table->string('description', 1024)->default('');
             $table->string('image_link', 255)->default('');
 
-            $table->index(["cat_group"], 'rhc_categories_cat_group_foreign');
+            $table->index(["group_id"], 'rhc_categories_group_id_foreign');
 
             $table->unique(["slug"], 'rhc_categories_slug_unique');
 
             $table->unique(["cat_name"], 'rhc_categories_cat_name_unique');
 
 
-            $table->foreign('cat_group', 'rhc_categories_cat_group_foreign')
+            $table->foreign('group_id', 'rhc_categories_group_id_foreign')
                 ->references('id')->on('rhc_groups')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

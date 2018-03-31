@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-  private $values = [
+  private $columns = [
     'id',
     'rhc_ref',
     'rhc_status',
@@ -46,7 +46,7 @@ class ProductController extends Controller
         return notFoundResponse();
     }
 
-    $product = Product::select(...$this->values)
+    $product = Product::select(...$this->columns)
     ->where('id', '=', $id)
     ->with([
       'specs:product_id,name,value,sort_order',
@@ -56,12 +56,8 @@ class ProductController extends Controller
       'related:id,product_name',
     ])->first();
 
-    return response([
-      'status' => 'success',
-      'values' => [
-        'product' => $product,
-        // 'debug' => \DB::getQueryLog()
-      ]
+    return successResponse([
+        'product' => $product
     ]);
   }
 

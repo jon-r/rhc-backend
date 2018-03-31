@@ -26,3 +26,16 @@ function notFoundResponse() {
 
     return response($response, 404);
 }
+
+function successResponse($values) {
+    $response = [
+        'status' => 'success',
+        'values' => $values,
+    ];
+
+    if (env('APP_DEBUG', false)) {
+        $response += ['debug' => \DB::getQueryLog()];
+    }
+
+    return response($response, 200);
+}

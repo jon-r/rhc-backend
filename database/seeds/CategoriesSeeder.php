@@ -34,7 +34,7 @@ class CategoriesSeeder extends Seeder
                 'cat_name' => $c->Name,
                 'slug' => $this->slugify($c->Name),
                 'sort_order' => $c->List_Order,
-                'cat_group' => $c->id,
+                'group_id' => $c->id,
                 'description' => $c->CategoryDescription,
             ];
         }
