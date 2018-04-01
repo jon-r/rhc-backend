@@ -39,6 +39,8 @@ $router->group([
   $router->get('/product/show/{id}', 'ProductController@show');
 
   $router->get('/categories', 'CategoriesController@show');
+  $router->get('/categories/names', 'CategoriesController@names');
+  $router->post('/categories/update', 'CategoriesController@update');
 });
 
 

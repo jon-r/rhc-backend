@@ -27,7 +27,7 @@ function notFoundResponse() {
     return response($response, 404);
 }
 
-function successResponse($values) {
+function successResponse($values, $message = false) {
     $response = [
         'status' => 'success',
         'values' => $values,
@@ -35,6 +35,10 @@ function successResponse($values) {
 
     if (env('APP_DEBUG', false)) {
         $response += ['debug' => \DB::getQueryLog()];
+    }
+
+    if ($message) {
+        $response += ['message' => $message];
     }
 
     return response($response, 200);

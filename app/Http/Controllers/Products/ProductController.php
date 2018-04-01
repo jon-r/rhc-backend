@@ -17,7 +17,6 @@ class ProductController extends Controller
     'photos_status',
     'print_status',
     'print_notes',
-    'invoice',
     'product_name',
     'description',
     'quantity',
@@ -28,8 +27,6 @@ class ProductController extends Controller
     'site_flag',
     'site_icon',
     'site_seo_text',
-    'date_live',
-    'date_sold',
     'video_link',
   ];
 
@@ -61,7 +58,7 @@ class ProductController extends Controller
     ]);
   }
 
-  public function edit($id) {
+  public function update($id) {
 // update existing item
   }
 
