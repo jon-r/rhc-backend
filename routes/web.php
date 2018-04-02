@@ -32,8 +32,8 @@ $router->options('{any}', [
 $router->group([
   'prefix' => 'api/v1/cms',
   'namespace' => 'Products',
-  'middleware' => ['cors', 'debug'] // todo add auth
-], function ($app) use ($router) {
+  'middleware' => ['jwt.auth', 'cors', 'debug']
+], function () use ($router) {
   $router->get('/products/list/toGoOnline', 'ListController@toGoOnline');
 
   $router->get('/product/show/{id}', 'ProductController@show');
@@ -41,6 +41,7 @@ $router->group([
   $router->get('/categories', 'CategoriesController@show');
   $router->get('/categories/names', 'CategoriesController@names');
   $router->post('/categories/update', 'CategoriesController@update');
+  $router->post('/categories/update-all', 'CategoriesController@updateAll');
 });
 
 
