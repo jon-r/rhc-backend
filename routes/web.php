@@ -68,17 +68,14 @@ $router->group([
     'namespace' => 'Products',
     'middleware' => ['jwt.auth', 'cors', 'debug']
 ], function ($app) use ($router) {
-    $app->get('/products/list/toGoOnline', 'ListController@toGoOnline');
+    $app->post('/product', 'ProductController@add');
+    $app->get('/product/{id}', 'ProductController@view');
+    $app->get('/products', 'ProductController@list');
+    $app->put('/products', 'ProductController@edit');
 
-    $app->get('/product/show/{id}', 'ProductController@show');
+    $app->get('/categories', 'CategoriesController@list');
+    $app->put('/categories', 'CategoriesController@edit');
 
-    $app->get('/categories', 'CategoriesController@show');
-    $app->get('/categories/names', 'CategoriesController@names');
-    $app->post('/categories/update', 'CategoriesController@update');
-    $app->post('/categories/update-all', 'CategoriesController@updateAll');
-
-    $app->post('/brand', 'BrandController@add');
-    $app->get('/brand/{id}', 'BrandController@view');
     $app->get('/brands', 'BrandController@list');
     $app->put('/brands', 'BrandController@edit');
 });

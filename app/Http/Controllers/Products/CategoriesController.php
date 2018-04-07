@@ -29,7 +29,7 @@ class CategoriesController extends Controller
         'image_link',
     ];
 
-    public function show()
+    public function list()
     {
         $groups = Group::select(...$this->groupColumns)
             ->orderBy('sort_order', 'asc')
@@ -45,40 +45,41 @@ class CategoriesController extends Controller
         ]);
     }
 
-    public function names()
-    {
-        $categories = Category::select('cat_name', 'id')
-            ->orderBy('sort_order', 'asc')
-            ->get();
+    // todo move this to a CMS load request?
+//    public function names()
+//    {
+//        $categories = Category::select('cat_name', 'id')
+//            ->orderBy('sort_order', 'asc')
+//            ->get();
+//
+//        return successResponse([
+//            'categories' => $categories,
+//        ]);
+//    }
 
-        return successResponse([
-            'categories' => $categories,
-        ]);
-    }
+//    public function edit(Request $req)
+//    {
+//        $category = Category::find($req->id);
+//
+//        if (!$category) {
+//            return notFoundResponse();
+//        }
+//
+//        $category->update([
+//            'cat_name' => $req->cat_name,
+//            'slug' => $req->slug,
+//            'sort_order' => $req->sort_order,
+//            'group_id' => $req->group_id,
+//            'description' => $req->description,
+//            'image_link' => $req->image_link,
+//        ]);
+//
+//        return successResponse([
+//            'category' => $category
+//        ], 'Category Updated');
+//    }
 
-    public function update(Request $req)
-    {
-        $category = Category::find($req->id);
-
-        if (!$category) {
-            return notFoundResponse();
-        }
-
-        $category->update([
-            'cat_name' => $req->cat_name,
-            'slug' => $req->slug,
-            'sort_order' => $req->sort_order,
-            'group_id' => $req->group_id,
-            'description' => $req->description,
-            'image_link' => $req->image_link,
-        ]);
-
-        return successResponse([
-            'category' => $category
-        ], 'Category Updated');
-    }
-
-    public function updateAll(Request $req)
+    public function edit(Request $req)
     {
         $ids = [];
 
