@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
     {
       Schema::create('users', function(Blueprint $t)
       {
-          $t->increments('id')->unsigned();
+          $t->smallIncrements('id')->unsigned();
           $t->string('username', 255)->nullable()->unique();
           $t->string('password', 127);
           $t->enum('role', ['user', 'admin'])->index();

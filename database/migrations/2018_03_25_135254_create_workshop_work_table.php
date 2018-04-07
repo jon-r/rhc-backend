@@ -14,10 +14,9 @@ class CreateWorkshopWorkTable extends Migration
     public function up()
     {
         Schema::create('workshop_work', function (Blueprint $table) {
-            $table->increments('id');
+            $table->mediumIncrements('id');
             $table->timestamps();
-
-            $table->unsignedInteger('workshop_id')->default(0);
+            $table->unsignedMediumInteger('workshop_id')->default(0);
             $table->string('staff_name', 255)->default('');
             $table->string('notes', 255)->default('');
             $table->string('time_taken', 255)->default('');

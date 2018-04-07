@@ -14,24 +14,24 @@ class CreateItemsTable extends Migration
     public function up()
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->increments('id');
+            $table->mediumIncrements('id');
             $table->timestamps();
             $table->string('name', 255)->default('');
             $table->unsignedTinyInteger('status')->default(0);
             $table->string('serial_number', 255)->default('');
 
-            $table->unsignedInteger('purchases_id')->nullable();
+            $table->unsignedMediumInteger('purchases_id')->nullable();
             $table->dateTime('purchased_date')->nullable();
 
-            $table->unsignedInteger('workshop_id')->nullable();
+            $table->unsignedMediumInteger('workshop_id')->nullable();
             $table->dateTime('workshop_in')->nullable();
             $table->dateTime('workshop_out')->nullable();
 
-            $table->unsignedInteger('product_id')->nullable();
+            $table->unsignedMediumInteger('product_id')->nullable();
             $table->dateTime('date_live')->nullable();
             $table->dateTime('date_sold')->nullable();
 
-            $table->unsignedInteger('sales_id')->nullable();
+            $table->unsignedMediumInteger('sales_id')->nullable();
             $table->dateTime('date_scrapped')->nullable();
 
 

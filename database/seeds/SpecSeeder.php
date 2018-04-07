@@ -12,15 +12,11 @@ class SpecSeeder extends Seeder
    */
   public function run()
   {
-    $specs = $this->selectSpec('Brand', 0)
-    ->union($this->selectSpec('Model', 1))
-    ->union($this->selectSpec('Height', 2))
-    ->union($this->selectSpec('Width', 3))
-    ->union($this->selectSpec('Depth', 4))
-    ->get();
+
 
     $inserted = [];
 
+    $specs = $this->selectSpec('Model', 1)->get();
     foreach ($specs as $k => $s) {
       $inserted[] = [
         'product_id' => $s->product_id,
@@ -49,7 +45,6 @@ class SpecSeeder extends Seeder
     ->where([
       [$name, '<>', '0'],
       [$name, '<>', ''],
-      [$name, '<>', 0],
     ])
     ->join('rhc_products', 'rhc_products.rhc_ref', '=', 'old_networked.RHC')
     ->select(
@@ -75,25 +70,25 @@ class SpecSeeder extends Seeder
   }
 
   private function joinPower($row) {
-    $offset = 5;
+    $offset = 2;
 
     if ($row->watts > 1500) {
       $watts = ($row->watts / 1000).'kw';
     } elseif ($row->watts > 0) {
       $watts = ($row->watts).' watts';
     } else {
-      $watts = false;
+      $watts = null;
     }
     if ($row->power !== '0') {
       $type = $row->power;
     } else {
-      $type = false;
+      $type = null;
     };
 
     $arr[] = [
       'product_id' => $row->product_id,
       'name' => 'Power',
-      'value' => implode(', ', [$watts, $type]),
+      'value' => implode(', ', array_filter([$watts, $type])),
       'sort_order' => $offset,
     ];
 
@@ -116,7 +111,7 @@ class SpecSeeder extends Seeder
   }
 
   private function splitExtras($row) {
-    $offset = 6;
+    $offset = 3;
     $values = explode(';', $row->value_list);
 
     foreach ($values as $i => $line) {

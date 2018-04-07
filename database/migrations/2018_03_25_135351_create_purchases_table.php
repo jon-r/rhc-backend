@@ -14,10 +14,10 @@ class CreatePurchasesTable extends Migration
     public function up()
     {
         Schema::create('purchases', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('contacts_id')->nullable()->default(null);
+            $table->mediumIncrements('id');
+            $table->unsignedMediumInteger('contacts_id')->nullable()->default(null);
             $table->decimal('purchase_price', 7, 2)->default('0');
-            $table->string('notes', 255)->default('');
+            $table->string('notes', 512)->default('');
             $table->string('purchase_ref', 255)->default('');
 
             $table->index(["contacts_id"], 'fk_purchases_contacts1_idx');

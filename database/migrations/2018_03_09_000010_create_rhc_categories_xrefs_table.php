@@ -23,8 +23,8 @@ class CreateRhcCategoriesXrefsTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->unsignedInteger('product_id');
-            $table->unsignedInteger('category_id');
+            $table->unsignedMediumInteger('product_id');
+            $table->unsignedSmallInteger('category_id');
 
             $table->index(["category_id"], 'rhc_categories_xrefs_category_id_foreign');
 

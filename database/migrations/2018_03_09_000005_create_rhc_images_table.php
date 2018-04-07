@@ -23,14 +23,13 @@ class CreateRhcImagesTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->mediumIncrements('id');
             $table->string('image_link', 255);
             $table->string('image_meta', 1024);
-            $table->unsignedTinyInteger('sort_order')->default('0');
-            $table->unsignedInteger('product_id');
+            $table->unsignedTinyInteger('sort_order')->default(0);
+            $table->unsignedMediumInteger('product_id');
 
             $table->index(["product_id"], 'fk_rhc_images_rhc_products1_idx');
-
 
             $table->foreign('product_id', 'fk_rhc_images_rhc_products1_idx')
                 ->references('id')->on('rhc_products')

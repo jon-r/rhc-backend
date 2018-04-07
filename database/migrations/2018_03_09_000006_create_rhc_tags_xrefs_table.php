@@ -23,8 +23,8 @@ class CreateRhcTagsXrefsTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->unsignedInteger('product_id');
-            $table->unsignedInteger('tag_id');
+            $table->unsignedMediumInteger('product_id');
+            $table->unsignedMediumInteger('tag_id');
 
             $table->index(["tag_id"], 'rhc_tags_xrefs_tag_id_foreign');
             $table->index(["product_id"], 'rhc_tags_xrefs_product_id_foreign');

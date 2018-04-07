@@ -23,13 +23,13 @@ class CreateRhcCategoriesTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->smallIncrements('id');
             $table->string('cat_name', 32);
             $table->string('slug', 32);
-            $table->unsignedInteger('group_id')->default('0');
+            $table->unsignedTinyInteger('group_id')->default('0');
             $table->unsignedTinyInteger('sort_order')->default('0');
             $table->string('description', 1024)->default('');
-            $table->string('image_link', 255)->default('');
+            $table->unsignedMediumInteger('image_id')->nullable();
 
             $table->index(["group_id"], 'rhc_categories_group_id_foreign');
 
@@ -40,6 +40,11 @@ class CreateRhcCategoriesTable extends Migration
 
             $table->foreign('group_id', 'rhc_categories_group_id_foreign')
                 ->references('id')->on('rhc_groups')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('image_id', 'rhc_categories_image_id_foreign')
+                ->references('id')->on('site_images')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
