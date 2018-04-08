@@ -16,23 +16,23 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->timestamps();
+
             $table->string('name', 255)->default('');
-            $table->unsignedTinyInteger('status')->default(0);
             $table->string('serial_number', 255)->default('');
+            $table->unsignedTinyInteger('status')->default(0);
 
             $table->unsignedMediumInteger('purchases_id')->nullable();
-            $table->dateTime('purchased_date')->nullable();
+            $table->dateTime('date_purchased')->nullable();
 
             $table->unsignedMediumInteger('workshop_id')->nullable();
-            $table->dateTime('workshop_in')->nullable();
-            $table->dateTime('workshop_out')->nullable();
+            $table->dateTime('date_workshop_done')->nullable();
+            $table->dateTime('date_scrapped')->nullable();
 
             $table->unsignedMediumInteger('product_id')->nullable();
-            $table->dateTime('date_live')->nullable();
-            $table->dateTime('date_sold')->nullable();
+            $table->dateTime('date_on_site')->nullable();
 
             $table->unsignedMediumInteger('sales_id')->nullable();
-            $table->dateTime('date_scrapped')->nullable();
+            $table->dateTime('date_sold')->nullable();
 
 
             $table->index(["product_id"], 'fk_items_rhc_products1_idx');

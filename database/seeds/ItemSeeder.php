@@ -15,11 +15,6 @@ abstract class ItemStatus
 
 class ItemSeeder extends Seeder
 {
-    public function minDate()
-    {
-        return strtotime('2010-01-01');
-    }
-
     /**
      * Run the database seeds.
      *
@@ -51,16 +46,15 @@ class ItemSeeder extends Seeder
 
             $fromWorkshop[] = [
                 'name' => $w->Item,
+                'created_at' => $this->dateIfValid($w->Date_In),
                 'status' => $status,
                 'serial_number' => $this->getSerial($w, $p),
                 'workshop_id' => $w->id,
-                'workshop_in' => strtotime($w->Date_In) > $this->minDate() ? $w->Date_In : null,
-                'workshop_out' => strtotime($w->Date_Out) > $this->minDate() ? $w->Date_Out : null,
-                'product_id' => $this->valueExists($p, 'id') ?: null,
-                'date_live' => $this->valueExists($p, 'DateLive') && strtotime($p->DateLive) > $this->minDate() ? $p->DateLive : null,
+                'date_workshop_done' => $this->dateIfValid($w->Date_Out),
+                'product_id' => $this->valueExists($p, 'id'),
+                'date_on_site' => $this->valueExists($p, 'DateLive') ? $this->dateIfValid($p->DateLive) : null,
                 'date_sold' => $p ? $this->getSoldDate($status, $w, $p) : null,
-                'sales_id' => $this->valueExists($s, 'id') ?: null,
-                'date_scrapped' => $this->getScrappedDate($status, $w->Date_Out),
+                'sales_id' => $this->valueExists($s, 'id'),
             ];
         }
 
@@ -77,16 +71,16 @@ class ItemSeeder extends Seeder
 
                 $fromProducts[] = [
                     'name' => $p->ProductName,
+                    // no date in available, assume 1 week before date live
+                    'created_at' => $this->dateIfValid($p->DateLive, '1 week'),
                     'status' => $status,
                     'serial_number' => $this->valueExists($p, 'SerialNo') ?: '',
-                    'product_id' => $p->id,
-                    'date_live' => strtotime($p->DateLive) > $this->minDate() ? $p->DateLive : null,
-                    'date_sold' => $this->getSoldDate($status, null, $p),
-                    'sales_id' => $this->valueExists($s, 'id') ?: null,
                     'workshop_id' => null,
-                    'workshop_in' => null,
-                    'workshop_out' => null,
-                    'date_scrapped' => null,
+                    'date_workshop_done' => null,
+                    'product_id' => $p->id,
+                    'date_on_site' => $this->dateIfValid($p->DateLive),
+                    'date_sold' => $this->getSoldDate($status, null, $p),
+                    'sales_id' => $this->valueExists($s, 'id'),
                 ];
             }
         }
@@ -149,7 +143,7 @@ class ItemSeeder extends Seeder
 
     private function valueExists($obj, $key)
     {
-        return $obj && $obj->$key && $obj->$key !== '0' ? $obj->$key : false;
+        return $obj && $obj->$key && $obj->$key !== '0' ? $obj->$key : null;
     }
 
     private function getSoldDate($status, $w, $p)
@@ -160,37 +154,20 @@ class ItemSeeder extends Seeder
             $date = $this->valueExists($p, 'DateSold') ?: $this->valueExists($w, 'Date_out');
         }
 
-        return ($date && strtotime($date) > $this->minDate()) ? $date : null;
+        return $this->dateIfValid($date);
     }
 
-    private function getScrappedDate($status, $date)
-    {
-        if ($status === ItemStatus::IsScrapped && strtotime($date) > $this->minDate()) {
-            return $date;
-        } else {
+    private function dateIfValid($date, $offset = false) {
+        $minDate = strtotime('2010-01-01');
+
+        if (!$date) {
             return null;
         }
+
+        $date = date_create($date);
+
+        $date = $offset ? date_sub($date, date_interval_create_from_date_string($offset)) : $date;
+
+        return $date->getTimestamp() > $minDate ? $date->format('Y-m-d\TH:i:s') : null;
     }
 }
-
-
-/* ROWS
-id
-created_at
-updated_at
-name
-status
-serial_number
-purchases_id
-purchased_date
-workshop_id
-workshop_in
-workshop_out
-product_id
-date_live
-date_sold
-sales_id
-date_scrapped
-
-
-*/
