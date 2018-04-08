@@ -8,17 +8,28 @@ class Item extends Model
 {
     protected $table = 'items';
 
-    protected $fillable = [
-        'name',
-        'status',
-        'serial_number',
-        'purchases_id',
-        'purchased_date',
-        'workshop_id',
-        'workshop_out',
-        'product_id',
-        'date_on_site',
-        ''
-    ];
+    public function purchase()
+    {
+        return $this->belongsTo('App\Models\Purchase');
+    }
 
+    public function workshop()
+    {
+        return $this->belongsTo('App\Models\Workshop');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
+
+    public function sales()
+    {
+        return $this->belongsTo('App\Models\Sale');
+    }
+
+    public function image()
+    {
+        return$this->hasMany('App\Models\Image', 'product_id', 'product_id');
+    }
 }

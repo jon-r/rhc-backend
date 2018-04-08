@@ -2,16 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
-abstract class ItemStatus
-{
-    const NewItem = 0;
-    const InWorkshop = 1;
-    const RHCToGo = 2;
-    const LiveOnRHC = 3;
-    const IsSold = 4;
-    const IsScrapped = 5;
-}
+use App\Enums\ItemStatus;
 
 class ItemSeeder extends Seeder
 {

@@ -37,7 +37,7 @@ $router->group([
 ], function ($app) use ($router) {
     $app->post('/item', 'ItemController@add');
     $app->get('/item/{id}', 'ItemController@view');
-    $app->get('/items', 'ItemController@list');
+    $app->post('/items', 'ItemController@list');
 });
 
 // purchases
@@ -48,7 +48,7 @@ $router->group([
 ], function ($app) use ($router) {
     $app->post('/purchase', 'PurchaseController@add');
     $app->get('/purchase/{id}', 'PurchaseController@view');
-    $app->get('/purchases', 'PurchaseController@list');
+    $app->post('/purchases', 'PurchaseController@list');
     $app->put('/purchases', 'PurchaseController@edit');
 });
 
@@ -59,7 +59,7 @@ $router->group([
     'middleware' => ['cors', 'debug'] // todo auth
 ], function ($app) use ($router) {
     $app->get('/workshop/{id}', 'WorkshopController@view');
-    $app->get('/workshop', 'WorkshopController@list');
+    $app->post('/workshop', 'WorkshopController@list');
     $app->put('/workshop', 'WorkshopController@edit');
 });
 
@@ -71,13 +71,13 @@ $router->group([
 ], function ($app) use ($router) {
     $app->post('/product', 'ProductController@add');
     $app->get('/product/{id}', 'ProductController@view');
-    $app->get('/products', 'ProductController@list');
+    $app->post('/products', 'ProductController@list');
     $app->put('/products', 'ProductController@edit');
 
-    $app->get('/categories', 'CategoriesController@list');
+    $app->post('/categories', 'CategoriesController@list');
     $app->put('/categories', 'CategoriesController@edit');
 
-    $app->get('/brands', 'BrandController@list');
+    $app->post('/brands', 'BrandController@list');
     $app->put('/brands', 'BrandController@edit');
 });
 
@@ -89,7 +89,7 @@ $router->group([
 ], function ($app) use ($router) {
     $app->post('/sale', 'SaleController@add');
     $app->get('/sale/{id}', 'SaleController@view');
-    $app->get('/sales', 'SaleController@list');
+    $app->post('/sales', 'SaleController@list');
     $app->put('/sales', 'SaleController@edit');
 });
 
@@ -101,7 +101,7 @@ $router->group([
 ], function ($app) use ($router) {
     $app->post('/contact', 'ContactController@add');
     $app->get('/contact/{id}', 'ContactController@view');
-    $app->get('/contacts', 'ContactController@list');
+    $app->post('/contacts', 'ContactController@list');
     $app->put('/contacts', 'ContactController@edit');
 });
 
@@ -113,7 +113,7 @@ $router->group([
 ], function ($app) use ($router) {
     $app->post('/page-edit', 'PageEditController@add');
     $app->get('/page-edit/{id}', 'PageEditController@view');
-    $app->get('/page-edit', 'PageEditController@list');
+    $app->post('/page-edit', 'PageEditController@list');
     $app->put('/page-edit', 'PageEditController@edit');
 });
 
