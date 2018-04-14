@@ -67,7 +67,7 @@ $router->group([
 $router->group([
     'prefix' => 'api/v1/cms',
     'namespace' => 'Products',
-    'middleware' => ['jwt.auth', 'cors', 'debug']
+    'middleware' => ['cors', 'debug'] // todo auth
 ], function ($app) use ($router) {
     $app->post('/product', 'ProductController@add');
     $app->get('/product/{id}', 'ProductController@view');

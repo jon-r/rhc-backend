@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Items;
 
+use App\Enums\ItemStatus;
 use App\Models\Item;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -75,16 +76,21 @@ class ItemController extends Controller
 
     public function list(Request $req)
     {
-        // only be used for 'purchases' or 'status'
-        $filters = $req->only(['purchases_id']);
+        $filters = [];
+
+        // for 'purchases' or 'status'
+        $purchase = $req->input('purchase');
+        if ($purchase) {
+            $filters[] = ['purchases_id', '=', $purchase];
+        }
 
         if ($status = $req->input('status')) {
             switch ($status) {
                 case 'not sold':
-                    $filters[] = ['status', '<', '4'];
+                    $filters[] = ['status', '<', ItemStatus::IsSold];
                     break;
                 case 'not on site':
-                    $filters[] = ['status', '<', '3'];
+                    $filters[] = ['status', '<', ItemStatus::LiveOnRHC];
                     break;
                 default:
                     $filters[] = ['status', '=', $status];

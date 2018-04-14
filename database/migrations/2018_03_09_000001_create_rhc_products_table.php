@@ -32,9 +32,7 @@ class CreateRhcProductsTable extends Migration
 
             $table->string('curlew_ref', 20)->default('');
             $table->unsignedTinyInteger('curlew_status')->default(0);
-
             $table->unsignedTinyInteger('ebay_status')->default(0);
-            $table->unsignedTinyInteger('photos_status')->default(0);
 
             $table->string('shop_notes', 255)->default('');
             $table->string('description', 4098)->default('');

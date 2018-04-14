@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Products;
 
+use App\Enums\ItemStatus;
+use App\Enums\ProductStatus;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,9 +27,6 @@ class ProductController extends Controller
         'curlew_ref',
         'curlew_status',
         'shop_notes',
-        'photos_status',
-        'print_status',
-        'print_notes',
         'product_name',
         'description',
         'quantity',
@@ -42,20 +41,16 @@ class ProductController extends Controller
     ];
 
 
-    public function add()
+    public function add(Request $req)
     {
         return successResponse([
             'endpoint' => 'Product Add',
-            'id' => $id
+            'id' => $req->all()
         ]);
     }
 
     public function view($id)
     {
-        if (!Product::find($id)) {
-            return notFoundResponse();
-        }
-
         $product = Product::select(...$this->rows)
             ->where('id', '=', $id)
             ->with([
@@ -64,6 +59,9 @@ class ProductController extends Controller
                 'tags',
                 'images',
                 'related:id,product_name',
+                'items:product_id,serial_number,purchases_id,status,date_on_site,date_sold,date_workshop_done',
+                'sales:invoice',
+                'workshop:workshop_number,notes,is_completed',
             ])->first();
 
         return successResponse([
@@ -73,39 +71,76 @@ class ProductController extends Controller
 
     public function list(Request $req)
     {
-        $products = Product::select(...$this->listRows)
-            ->selectRaw('length(description) as description_length')
-            ->where([
-                ['rhc_status', '=', 0],
-                ['quantity', '>', 0],
-            ])
-            ->orWhere([
-                ['curlew_status', '=', 0],
-                ['quantity', '>', 0],
-            ])
-            ->withCount([
-                'categories',
-                'images'
-            ])
-            ->orderBy('id', 'desc');
+        $filters = [];
+        $orFilters = [];
+        $itemFilters = [];
 
-        return $this->response($products, $req);
-    }
+        $select = $this->listRows;
+        $with = [
+            'categories:id,cat_name',
+            // only get first image
+            'images' => function ($q) {
+                $q->where('sort_order', '=', '0');
+            },
+            'items:id,product_id,updated_at,status'
+        ];
+        $updated = 'updated_at';
 
+        $requestType = $req->input('type');
+        if ($requestType === 'to go') {
+            $filters[] = ['rhc_status', '=', ProductStatus::ToAdd];
+            $filters[] = ['quantity', '>', 0];
+            $orFilters[] = ['curlew_status', '=', ProductStatus::ToAdd];
+            $orFilters[] = ['quantity', '>', 0];
+        } else if ($requestType === 'to print') {
+            $select = [
+                'id',
+                'rhc_ref',
+                'product_name',
+                'print_status',
+                'print_notes'
+            ];
+            $with = [
+                'images' => function ($q) {
+                    $q->where('sort_order', '=', '0');
+                }
+            ];
+            $filters[] = ['print_status', '<', ProductStatus::ToSkip];
+            $filters[] = ['quantity', '>', 0];
+        } else if ($requestType === 'to price') {
+            $filters[] = ['quantity', '>', 0];
+            $filters[] = ['price', '=', 0];
+        } else if ($requestType === 'on site') {
+            $updated = 'date_on_site';
+            $filters[] = ['rhc_status', '=', ProductStatus::Added];
+            $filters[] = ['quantity', '>', 0];
+            $orFilters[] = ['curlew_status', '=', ProductStatus::Added];
+            $orFilters[] = ['quantity', '>', 0];
+        }
 
-    private function response($products, Request $req)
-    {
-        // pagination handled frontend be default, most queries will be below 100 items
-        $items = $products->get();
+        $days = $req->input('days-since-update');
+        if ($days !== null) {
+            $date = date_create();
+            $dateFrom = date_sub($date, date_interval_create_from_date_string("$days days"));
 
-        return response([
-            'status' => 'success',
-            'values' => [
-                'req' => $req->all(),
-                'items' => $items,
-            ]
+            $itemFilters[] = [$updated, '<', $dateFrom->format('Y-m-d\TH:i:s')];
+        }
+
+        $products = Product::select(...$select)
+            ->where($filters)
+            ->whereHas('items', function ($q) use ($itemFilters) {
+                $q->where($itemFilters);
+            })
+            ->with($with)
+            ->get();
+
+        return successResponse([
+            'req' => $req->all(),
+            'count' => count($products),
+            'products' => $products,
         ]);
     }
+
 
     public function edit(Request $req)
     {

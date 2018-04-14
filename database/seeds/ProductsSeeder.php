@@ -28,9 +28,6 @@ class ProductsSeeder extends Seeder
                     $p->NotForCurlew
                 ),
                 'shop_notes' => $p->ExtraComments,
-                'photos_status' => $this->getStatusFrom(
-                    $p->HasPics
-                ),
                 'print_status' => $this->getStatusFrom(
                     $p->PrintAttached,
                     $p->HasPrinted,
