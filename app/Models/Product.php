@@ -47,4 +47,9 @@ class Product extends Model
     {
         return $this->belongsToMany('App\Models\Workshop', 'items', 'product_id', 'workshop_id');
     }
+
+    public function brand()
+    {
+        return $this->belongsTo('App\Models\Brand', 'brand_id');
+    }
 }

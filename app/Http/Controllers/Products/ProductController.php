@@ -38,6 +38,7 @@ class ProductController extends Controller
         'site_icon',
         'site_seo_text',
         'video_link',
+        'brand_id'
     ];
 
 
@@ -62,6 +63,7 @@ class ProductController extends Controller
                 'items:product_id,serial_number,purchases_id,status,date_on_site,date_sold,date_workshop_done',
                 'sales:invoice',
                 'workshop:workshop_number,notes,is_completed',
+                'brand'
             ])->first();
 
         return successResponse([

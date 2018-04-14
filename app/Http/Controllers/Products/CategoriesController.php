@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\DB;
 class CategoriesController extends Controller
 {
     private $columns = [
+        'id',
         'cat_name',
         'slug',
         'sort_order',
         'group_id',
         'description',
-        'image_link',
+        'image_id'
     ];
 
     private $groupColumns = [
@@ -26,16 +27,18 @@ class CategoriesController extends Controller
         'sort_order',
         'sort_order',
         'description',
-        'image_link',
+        'image_id'
     ];
 
     public function list()
     {
         $groups = Group::select(...$this->groupColumns)
+            ->with('image')
             ->orderBy('sort_order', 'asc')
             ->get();
 
-        $categories = Category::select('id', ...$this->columns)
+        $categories = Category::select(...$this->columns)
+            ->with('image')
             ->orderBy('sort_order', 'asc')
             ->get();
 
@@ -57,28 +60,6 @@ class CategoriesController extends Controller
 //        ]);
 //    }
 
-//    public function edit(Request $req)
-//    {
-//        $category = Category::find($req->id);
-//
-//        if (!$category) {
-//            return notFoundResponse();
-//        }
-//
-//        $category->update([
-//            'cat_name' => $req->cat_name,
-//            'slug' => $req->slug,
-//            'sort_order' => $req->sort_order,
-//            'group_id' => $req->group_id,
-//            'description' => $req->description,
-//            'image_link' => $req->image_link,
-//        ]);
-//
-//        return successResponse([
-//            'category' => $category
-//        ], 'Category Updated');
-//    }
-
     public function edit(Request $req)
     {
         $ids = [];
@@ -95,7 +76,6 @@ class CategoriesController extends Controller
                     'cat_name' => $category['cat_name'],
                     'slug' => $category['slug'],
                     'description' => $category['description'],
-                    'image_link' => $category['image_link'],
                     'sort_order' => $index,
                     'group_id' => $req->input('group'),
                 ]

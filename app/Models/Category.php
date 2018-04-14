@@ -18,4 +18,9 @@ class Category extends Model
     ];
 
     public $timestamps = false;
+
+    public function image()
+    {
+        return $this->belongsTo('App\Models\SiteImage');
+    }
 }

@@ -1,13 +1,21 @@
 <?php
 
-
-// use App\Models\Brand;
+namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Brand;
 
 class BrandController extends Controller
 {
+    private $listColumns = [
+        'id',
+        'name',
+        'slug',
+        'image_id',
+        'include_on_list',
+    ];
+
     public function edit(Request $req)
     {
         return successResponse([
@@ -16,11 +24,21 @@ class BrandController extends Controller
         ]);
     }
 
-    public function list(Request $req)
+    public function list()
     {
+        $brands = Brand::select(...$this->listColumns)
+            ->whereHas('products', function ($q) {
+                $q->where('quantity', '>', 0);
+            })
+            ->with('image')
+            ->withCount(['products' => function ($q) {
+                $q->where('quantity', '>', 0);
+            }])
+            ->orderBy('products_count', 'desc')
+            ->get();
+
         return successResponse([
-            'endpoint' => 'Brand list',
-            'request' => $req->all()
+            'endpoint' => $brands
         ]);
     }
 }
