@@ -166,3 +166,54 @@ $router->group([
 
     $app->get('/users', 'UserController@all');
 });
+
+/* -------------------
+ *
+ * Frontend Routes
+ *
+ * ----------------- */
+
+// core
+$router->group([
+    'prefix' => 'api/v1/site',
+    'namespace' => 'Frontend',
+    'middleware' => ['cors']
+], function ($app) use ($router) {
+    $app->get('/core', 'CoreController@siteLoad');
+    $app->get('/core/common', 'CoreController@common');
+});
+
+// products
+$router->group([
+    'prefix' => 'api/v1/site',
+    'namespace' => 'Frontend',
+    'middleware' => ['cors']
+], function ($app) use ($router) {
+    $app->get('/product/{id}', 'ProductController@view');
+    $app->post('/products', 'ProductController@list');
+    $app->get('/search', 'ProductController@search');
+
+    $app->get('/categories', 'ListController@categories');
+    $app->get('/brands', 'ListController@brands');
+});
+
+// pages
+$router->group([
+    'prefix' => 'api/v1/site',
+    'namespace' => 'Frontend',
+    'middleware' => ['cors']
+], function ($app) use ($router) {
+    $app->post('/page', 'PageController@viewPage');
+    $app->get('/page/home', 'PageController@homePage');
+    $app->get('/page/contact', 'PageController@contactPage');
+});
+
+// contact
+$router->group([
+    'prefix' => 'api/v1/site',
+    'namespace' => 'Frontend',
+    'middleware' => ['cors']
+], function ($app) use ($router) {
+    // maybe do different for special messages?
+    $app->post('/form/submit', 'FormController@submit');
+});
