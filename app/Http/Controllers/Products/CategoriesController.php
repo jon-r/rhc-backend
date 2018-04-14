@@ -48,18 +48,6 @@ class CategoriesController extends Controller
         ]);
     }
 
-    // todo move this to a CMS load request?
-//    public function names()
-//    {
-//        $categories = Category::select('cat_name', 'id')
-//            ->orderBy('sort_order', 'asc')
-//            ->get();
-//
-//        return successResponse([
-//            'categories' => $categories,
-//        ]);
-//    }
-
     public function edit(Request $req)
     {
         $ids = [];

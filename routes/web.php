@@ -29,6 +29,15 @@ $router->options('{any}', [
  *
  * ----------------- */
 
+// core
+$router->group([
+    'prefix' => 'api/v1/cms',
+    'middleware' => ['cors', 'debug'] // todo auth
+], function ($app) use ($router) {
+    $app->get('/core', 'CoreController@index');
+    $app->post('/core', 'CoreController@edit');
+});
+
 // items
 $router->group([
     'prefix' => 'api/v1/cms',
@@ -73,6 +82,7 @@ $router->group([
     $app->get('/product/{id}', 'ProductController@view');
     $app->post('/products', 'ProductController@list');
     $app->put('/products', 'ProductController@edit');
+    $app->get('/products/prep', 'ProductController@editPrep');
 
     $app->post('/categories', 'CategoriesController@list');
     $app->put('/categories', 'CategoriesController@edit');
@@ -115,17 +125,18 @@ $router->group([
     $app->get('/page-edit/{id}', 'PageEditController@view');
     $app->post('/page-edit', 'PageEditController@list');
     $app->put('/page-edit', 'PageEditController@edit');
+
+    $app->get('/home-page', 'SiteSettingsController@homePageView');
+    $app->post('/home-page', 'SiteSettingsController@homePageEdit');
+
+    $app->get('/contacts', 'SiteSettingsController@contactsView');
+    $app->post('/contacts', 'SiteSettingsController@contactsEdit');
+
+    $app->get('/site-layout', 'SiteSettingsController@siteLayoutView');
+    $app->post('/site-layout', 'SiteSettingsController@siteLayoutEdit');
+
+    $app->post('/images', 'ImageController@list');
 });
-
-
-// products frontend
-// $router->group([
-//   'prefix' => 'api/v1',
-//   'namespace' => 'Products',
-//   'middleware' => ['cors']
-// ], function ($app) use ($router) {
-//   $app->get('/cms/products/listAll/{category?}', 'ProductController@listCategory');
-// });
 
 // auth
 $router->group([

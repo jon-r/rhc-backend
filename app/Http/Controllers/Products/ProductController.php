@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Products;
 
 use App\Enums\ItemStatus;
 use App\Enums\ProductStatus;
+use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Tag;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -140,6 +143,24 @@ class ProductController extends Controller
             'req' => $req->all(),
             'count' => count($products),
             'products' => $products,
+        ]);
+    }
+
+    public function editPrep() {
+        $categories = Category::select('cat_name', 'id')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+        $tags = Tag::select('name','id')
+            ->orderBy('name', 'asc')
+            ->get();
+        $brands = Brand::select('name', 'id')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return successResponse([
+            'categories' => $categories,
+            'tags' => $tags,
+            'brands' => $brands
         ]);
     }
 
